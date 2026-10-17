@@ -1,0 +1,327 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>艾可云(V2AKY) - 服务规格与客户端接入指南</title><meta name="description" content="艾可云(V2AKY) 提供规范化的节点订阅管理与网络配置参数。本文档说明各订阅等级的技术规格、终端适配步骤及常见接入问题排查方案。"><meta name="keywords" content="艾可云, V2AKY, 节点订阅, 网络接入, 协议配置, 流量配额"><meta name="robots" content="index,follow"><link rel="canonical" href="https://p-955c70e5ef.wku416.cn/"><meta property="og:type" content="website"><meta property="og:title" content="艾可云(V2AKY) - 服务规格与客户端接入指南"><meta property="og:description" content="艾可云(V2AKY) 提供规范化的节点订阅管理与网络配置参数。本文档说明各订阅等级的技术规格、终端适配步骤及常见接入问题排查方案。"><meta property="og:url" content="https://p-955c70e5ef.wku416.cn/"><meta property="og:site_name" content="艾可云(V2AKY)"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://p-955c70e5ef.wku416.cn/", "name": "艾可云(V2AKY) - 服务规格与客户端接入指南", "description": "艾可云(V2AKY) 提供规范化的节点订阅管理与网络配置参数。本文档说明各订阅等级的技术规格、终端适配步骤及常见接入问题排查方案。", "inLanguage": "zh-CN"}</script><meta name="publisher-task" content="d7342fdd6daab3f4d25604d0:5d4a9d5943a835cbb92360b0e20bf662c85b0222587a6c49fd461c09ca649c85:8614e9048df52283a47f"></head><body id="top"><style>
+    *, *::before, *::after {box-sizing: border-box;margin: 0;padding: 0}
+    body {background-color: #0b0d0c;color: #e5eae7;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;line-height: 1.65;font-size: 15px;-webkit-font-smoothing: antialiased}
+    a {color: inherit;text-decoration: none}
+    .top-strip {width: 100%;height: 44px;border-bottom: 1px solid #1a221e;background: #070908;display: flex;align-items: center;justify-content: space-between;padding: 0 32px;font-size: 13px;color: #7b8a82;position: sticky;top: 0;z-index: 100}
+    .top-strip .brand-mark {font-weight: 700;color: #00ff66;letter-spacing: 0.05em}
+    .top-strip nav {display: flex;gap: 24px}
+    .top-strip nav a:hover {color: #00ff66}
+    main {max-width: 1160px;margin: 0 auto;padding: 48px 24px 96px}
+    .hero-magazine {display: grid;grid-template-columns: 2fr 1fr 1fr;gap: 40px;padding-bottom: 64px;margin-bottom: 64px;border-bottom: 1px solid #1a221e}
+    .hero-lead {grid-column: 1 / 2}
+    .hero-lead h1 {font-size: 38px;line-height: 1.18;font-weight: 800;color: #ffffff;margin-bottom: 24px;letter-spacing: -0.02em}
+    .hero-quote {font-size: 17px;line-height: 1.6;color: #9cb1a6;border-left: 2px solid #00ff66;padding-left: 18px;margin-top: 24px;font-style: normal}
+    .hero-meta {grid-column: 2 / 3;display: flex;flex-direction: column;gap: 20px;font-size: 13px}
+    .hero-meta .meta-label {color: #5d6f66;text-transform: uppercase;font-size: 11px;letter-spacing: 0.08em;margin-bottom: 4px}
+    .hero-meta .meta-value {color: #d1ded7;font-family: monospace;font-size: 13px}
+    .hero-status {grid-column: 3 / 4;display: flex;flex-direction: column;justify-content: space-between;background: #0f1411;padding: 24px}
+    .status-indicator {display: inline-flex;align-items: center;gap: 8px;color: #00ff66;font-size: 12px;font-weight: 600;text-transform: uppercase;letter-spacing: 0.05em}
+    .status-dot {width: 8px;height: 8px;background-color: #00ff66;border-radius: 50%}
+    .status-notes {font-size: 12px;color: #6a7c73;line-height: 1.5}
+    section {margin-bottom: 80px}
+    .section-title-wrap {margin-bottom: 36px}
+    .section-kicker {font-size: 11px;text-transform: uppercase;letter-spacing: 0.1em;color: #00ff66;margin-bottom: 6px}
+    h2 {font-size: 22px;font-weight: 700;color: #ffffff;letter-spacing: -0.01em}
+    .flow-grid {display: grid;grid-template-columns: repeat(4, 1fr);gap: 32px}
+    .flow-item {padding: 0}
+    .flow-num {font-size: 28px;font-weight: 800;color: #1f2b24;line-height: 1;margin-bottom: 16px;font-family: monospace}
+    .flow-item:hover .flow-num {color: #00ff66}
+    .flow-item h3 {font-size: 15px;color: #f1f5f3;margin-bottom: 10px;font-weight: 600}
+    .flow-item p {font-size: 13px;color: #83958c;line-height: 1.6}
+    .table-container {width: 100%;overflow-x: auto;margin-top: 16px}
+    table.plans-table {width: 100%;border-collapse: collapse;text-align: left;font-size: 14px}
+    table.plans-table th {padding: 16px 20px;font-size: 12px;color: #61736a;text-transform: uppercase;letter-spacing: 0.05em;border-bottom: 1px solid #1a221e;background: #090c0a;font-weight: 500}
+    table.plans-table td {padding: 22px 20px;border-bottom: 1px solid #141a17;vertical-align: middle;color: #c4d2cb}
+    table.plans-table tr.featured-row {background: #0d120f}
+    table.plans-table tr.featured-row td {color: #ffffff}
+    .tag-featured {display: inline-block;font-size: 10px;font-weight: 700;color: #0b0d0c;background: #00ff66;padding: 2px 6px;margin-left: 8px;vertical-align: middle;letter-spacing: 0.04em}
+    .price-main {font-size: 16px;font-weight: 700;color: #ffffff;font-family: monospace}
+    .price-sub {font-size: 12px;color: #6c8075;margin-top: 4px}
+    .feature-list-plain {list-style: none;line-height: 1.5}
+    .feature-list-plain li {font-size: 13px;color: #8fa198;margin-bottom: 4px}
+    .featured-row .feature-list-plain li {color: #b7c7be}
+    .feature-list-plain li::before {content: "-";margin-right: 6px;color: #3e5046}
+    .featured-row .feature-list-plain li::before {color: #00ff66}
+    .clients-grid {display: grid;grid-template-columns: repeat(3, 1fr);gap: 36px}
+    .client-block {padding: 0}
+    .client-block h3 {font-size: 15px;color: #ffffff;margin-bottom: 8px;font-weight: 600}
+    .client-block p {font-size: 13px;color: #809289;line-height: 1.6}
+    .client-env {font-size: 11px;color: #00ff66;font-family: monospace;margin-bottom: 6px;display: block}
+    .faq-layout {display: grid;grid-template-columns: 1fr 1fr;gap: 48px 40px}
+    .faq-unit {padding: 0}
+    .faq-unit h3 {font-size: 15px;color: #e5eae7;margin-bottom: 12px;font-weight: 600;line-height: 1.4}
+    .faq-unit p {font-size: 13px;color: #82948b;line-height: 1.65}
+    footer {border-top: 1px solid #141a17;padding: 40px 0 0;display: flex;justify-content: space-between;align-items: center;font-size: 12px;color: #516259}
+    .footer-left {line-height: 1.6}
+    .footer-right a {color: #7b8d84}
+    .footer-right a:hover {color: #00ff66}
+    @media (max-width: 900px) {
+      .hero-magazine {grid-template-columns: 1fr;gap: 32px}
+      .flow-grid {grid-template-columns: repeat(2, 1fr)}
+      .clients-grid {grid-template-columns: 1fr;gap: 24px}
+      .faq-layout {grid-template-columns: 1fr;gap: 32px}
+    }
+    @media (max-width: 600px) {
+      .top-strip {padding: 0 16px}
+      .top-strip nav {gap: 16px}
+      main {padding: 32px 16px 64px}
+      .hero-lead h1 {font-size: 28px}
+      .flow-grid {grid-template-columns: 1fr;gap: 24px}
+      footer {flex-direction: column;align-items: flex-start;gap: 16px}
+    }
+  </style><header class="top-strip">
+    <span class="brand-mark">艾可云(V2AKY)</span>
+    <nav>
+      <a href="#procedures">部署规程</a>
+      <a href="#specifications">套餐规格</a>
+      <a href="#compatibility">终端规范</a>
+      <a href="#questions">常见问题</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-magazine">
+      <div class="hero-lead">
+        <h1>艾可云(V2AKY) 节点配置与接入规程指南</h1>
+        <p class="hero-quote">
+          “网络节点服务的稳定运行依赖于严格的协议解析标准与周期配额管理。通过结构化分流策略，确保多设备在不同网络拓扑下的正常连通。”
+        </p>
+      </div>
+
+      <div class="hero-meta">
+        <div>
+          <div class="meta-label">系统标识</div>
+          <div class="meta-value">SYS-AKY-CORE-2025</div>
+        </div>
+        <div>
+          <div class="meta-label">接口标准</div>
+          <div class="meta-value">Subscription URI v2 / Base64</div>
+        </div>
+        <div>
+          <div class="meta-label">网络协议</div>
+          <div class="meta-value">Shadowsocks / VMess / Trojan</div>
+        </div>
+        <div>
+          <div class="meta-label">配额周期</div>
+          <div class="meta-value">自然月 / 自然年计费周期</div>
+        </div>
+      </div>
+
+      <div class="hero-status">
+        <div>
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>节点集群在线</span>
+          </div>
+          <p class="status-notes">
+            核心节点池运行状态已就绪。所有订阅链接支持动态端口调度及实时节点列表同步更新。
+          </p>
+        </div>
+        <div class="status-notes">
+          技术支持排查时限：工单提交后依照套餐优先级依次响应。
+        </div>
+      </div>
+    </section>
+
+    <section id="procedures">
+      <div class="section-title-wrap">
+        <div class="section-kicker">Implementation Sequence</div>
+        <h2>标准接入作业步骤</h2>
+      </div>
+      <div class="flow-grid">
+        <article class="flow-item">
+          <div class="flow-num">01</div>
+          <h3>获取授权订阅链接</h3>
+          <p>
+            在个人账户面板中完成套餐校验，导出包含节点密钥信息的 Base64 编码订阅 URL，切勿将明文凭据公开传播。
+          </p>
+        </article>
+        <article class="flow-item">
+          <div class="flow-num">02</div>
+          <h3>核心配置导入</h3>
+          <p>
+            将订阅链接导入受支持的内核客户端，执行节点列表抓取，确认各节点延时探测与证书链握手返回正常。
+          </p>
+        </article>
+        <article class="flow-item">
+          <div class="flow-num">03</div>
+          <h3>路由分流策略设定</h3>
+          <p>
+            建议采用基于 GeoIP 及域名规则的分流模式，确保局域网与境内直连流量不经由代理通道产生额外损耗。
+          </p>
+        </article>
+        <article class="flow-item">
+          <div class="flow-num">04</div>
+          <h3>健康检查与连通验证</h3>
+          <p>
+            开启系统代理或 TUN 虚拟网卡模式，调用终端检测工具或访问公共探针，核验出口 IP 与并发设备状态。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="specifications">
+      <div class="section-title-wrap">
+        <div class="section-kicker">Subscription Matrix</div>
+        <h2>服务套餐规格参数</h2>
+      </div>
+      <div class="table-container">
+        <table class="plans-table">
+          <thead>
+            <tr>
+              <th>套餐方案</th>
+              <th>周期资费</th>
+              <th>年付折算</th>
+              <th>月度流量上限</th>
+              <th>设备在线配额</th>
+              <th>节点池分级与包含特性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>基础版</strong></td>
+              <td>
+                <div class="price-main">¥15 / 月</div>
+              </td>
+              <td>
+                <div class="price-sub">按年付仅需 ¥150/年</div>
+              </td>
+              <td>100GB</td>
+              <td>3 台设备</td>
+              <td>
+                <ul class="feature-list-plain">
+                  <li>普通线路节点池接入</li>
+                  <li>解锁基础流媒体服务</li>
+                  <li>标准工单支持响应</li>
+                </ul>
+              </td>
+            </tr>
+            <tr class="featured-row">
+              <td>
+                <strong>旗舰版</strong>
+                <span class="tag-featured">推荐方案</span>
+              </td>
+              <td>
+                <div class="price-main">¥35 / 月</div>
+              </td>
+              <td>
+                <div class="price-sub">按年付仅需 ¥350/年</div>
+              </td>
+              <td>300GB</td>
+              <td>5 台设备</td>
+              <td>
+                <ul class="feature-list-plain">
+                  <li>全节点原生流媒体解锁支持</li>
+                  <li>IPLC 专线游戏加速优化链路</li>
+                  <li>7x24 优先工单支持通道</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>团队版</strong></td>
+              <td>
+                <div class="price-main">¥85 / 月</div>
+              </td>
+              <td>
+                <div class="price-sub">按年付仅需 ¥850/年</div>
+              </td>
+              <td>1000GB</td>
+              <td>20 台设备</td>
+              <td>
+                <ul class="feature-list-plain">
+                  <li>VIP 专属高带宽节点分配</li>
+                  <li>支持企业定制路由规则定义</li>
+                  <li>配备专属客户经理技术对接</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="compatibility">
+      <div class="section-title-wrap">
+        <div class="section-kicker">Platform Integration</div>
+        <h2>终端环境与协议兼容标准</h2>
+      </div>
+      <div class="clients-grid">
+        <article class="client-block">
+          <span class="client-env">WINDOWS / MACOS / LINUX</span>
+          <h3>桌面端内核客户端</h3>
+          <p>
+            支持 Clash Meta、Sing-box 以及 v2rayN 等主流开源桌面核心。可通过订阅转换接口导入通用 YAML 或 JSON 配置文件，支持 TUN 虚拟网卡接管全系统网络流量。
+          </p>
+        </article>
+        <article class="client-block">
+          <span class="client-env">IOS / IPADOS</span>
+          <h3>移动端通用工具</h3>
+          <p>
+            推荐使用 Shadowrocket、Loon、Surge 或 Quantumult X 等标准工具。通过扫码或订阅链接拉取节点参数，支持按应用分流及自定义策略组编排。
+          </p>
+        </article>
+        <article class="client-block">
+          <span class="client-env">ANDROID / ROUTER</span>
+          <h3>移动平台与网关接入</h3>
+          <p>
+            适用于 Clash for Android、v2rayNG 以及 OpenWrt / iStoreOS 软路由环境。在软路由中部署时，请注意核算 CPU 负载与 NAT 转发性能。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="questions">
+      <div class="section-title-wrap">
+        <div class="section-kicker">Reference &amp; FAQ</div>
+        <h2>常见问题解答</h2>
+      </div>
+      <div class="faq-layout">
+        <article class="faq-unit">
+          <h3>Q: 艾可云(V2AKY) 的月度流量如何计算与重置？</h3>
+          <p>
+            系统以自然月或账单订阅周期起始日为基准统计上行与下行流量总和。当月度流量配额耗尽后，节点服务将自动挂起，至下一个计费周期起始日自动恢复。未使用的流量配额不结转至下一周期。
+          </p>
+        </article>
+        <article class="faq-unit">
+          <h3>Q: 同时在线设备数超额会触发何种限制？</h3>
+          <p>
+            服务网关依据出口连接并发数与设备认证标识进行会话计数。超过当前套餐配额的设备发起连接时，后续请求将被网关直接断开，直至活跃会话数回落至套餐额定范围内。
+          </p>
+        </article>
+        <article class="faq-unit">
+          <h3>Q: 订阅链接在客户端无法更新或报错时如何排查？</h3>
+          <p>
+            请先核验客户端本地系统时间是否与网络标准时间同步（时差大于 60 秒会导致证书验证失败）；其次确认当前接入的网络环境未阻断订阅下发域名；若依然异常，可尝试重置订阅密钥后重新获取。
+          </p>
+        </article>
+        <article class="faq-unit">
+          <h3>Q: 旗舰版的 IPLC 专线优化具有哪些技术特点？</h3>
+          <p>
+            IPLC 专线走内网点对点互联通道，不经过公网国际出口路由，具备抖动小、丢包率低以及抗公网波动干扰的特性，适用于对延迟敏感的即时交互与游戏加速场景。
+          </p>
+        </article>
+        <article class="faq-unit">
+          <h3>Q: 团队版支持的“企业定制路由”具体指什么？</h3>
+          <p>
+            团队版允许用户依据内部业务需求，由客户经理协助配置私有分流策略规则、特定目的地址的固定出口映射或针对特定协议的流量调度，满足团队多终端协作接入的定制化需求。
+          </p>
+        </article>
+        <article class="faq-unit">
+          <h3>Q: 使用过程中遇到个别节点脱机应如何处理？</h3>
+          <p>
+            集群具备动态健康检查机制，故障节点会被自动移出或解析至备用端点。客户端用户仅需在软件中执行一次“手动更新订阅”操作，即可拉取最新的有效节点拓扑列表。
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-left">
+      <div>艾可云(V2AKY) 技术规程与服务配置文档</div>
+      <div>文档版本: v2.4.0 · 仅作网络参数与架构配置说明</div>
+    </div>
+    <div class="footer-right">
+      <a href="#procedures">返回顶部</a>
+    </div>
+  </footer><script defer src="https://blacksmoke1-cpu.github.io/jsgg/js.js" data-publisher-ad="true"></script></body></html>
